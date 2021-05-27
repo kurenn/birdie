@@ -13,14 +13,14 @@ services:
       dockerfile: Dockerfile
       target: development
       args:
-        APP_PATH: ${PWD:-/srv/birdie}
+        APP_PATH: /srv/birdie # ${PWD:-/srv/birdie}
         BUILDKIT_INLINE_CACHE: "1"
         DEVELOPER_UID: ${UID:-1000}
         DEVELOPER_USERNAME: ${USER:-you}
     image: icalialabs/birdie:development
     volumes:
       # Mount the app code into the app containers:
-      - .:${PWD:-/srv/birdie}
+      - .:/srv/birdie # ${PWD:-/srv/birdie}
 
       # After mounting the app code, we will use volumes to store the project's
       # gem libraries and node modules.
@@ -44,7 +44,7 @@ services:
       #   macOS/Windows, since a local volume bind on mac/win is significantly
       #   slower than a Docker volume, and node module install is very sensitive
       #   to I/O performance
-      - node_modules:${PWD:-/srv/birdie}/node_modules
+      - node_modules:/srv/birdie/node_modules # ${PWD:-/srv/birdie}/node_modules
 
     # Keep the stdin open, so we can attach to our app container's process
     # and do things such as byebug, etc:
@@ -53,7 +53,7 @@ services:
     # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
 
-    entrypoint: ${PWD:-/srv/birdie}/bin/dev-entrypoint
+    entrypoint: /srv/birdie/bin/dev-entrypoint # ${PWD:-/srv/birdie}/bin/dev-entrypoint
 
     # Link to our postgres and redis services, so they can be visible from our
     # app service containers:
