@@ -73,8 +73,7 @@ services:
       # Tells the test suite to use the "chrome" service instead of a local
       # chrome install:
       CHROME_URL: http://chrome:3333
-
-
+      RAILS_ENV: test
       DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@postgres:5432/?encoding=unicode
 
   web:
@@ -87,6 +86,7 @@ services:
       - webpacker
     environment:
       <<: *app_env
+      RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpacker
 
   webpacker:
